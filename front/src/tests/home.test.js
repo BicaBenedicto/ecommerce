@@ -1,6 +1,7 @@
 import React from 'react';
 import { screen, render, fireEvent } from '@testing-library/react';
 import App from '../App';
+import renderWithRouter from './services/renderWithRouter';
 
 const EMAIL = 'exemplo@email.com';
 const WRONG_EMAIL = 'abc@email';
@@ -73,7 +74,7 @@ describe('verify homepage have correct elements and actions expected', () => {
   });
 
   it('redirect in login button', () => {
-    render(<App />);
+    const { history } = renderWithRouter(<App />);;
 
     const [inputEmail] = screen.queryAllByPlaceholderText(EMAIL, 'input');
     const [inputPassword] = screen.queryAllByPlaceholderText(PASSWORD_SEARCH, 'input');
@@ -90,5 +91,8 @@ describe('verify homepage have correct elements and actions expected', () => {
 
     expect(inputEmail).not.toBeInTheDocument();
     expect(inputPassword).not.toBeInTheDocument();
-  })
+
+    const { pathname } = history.location;
+    expect(pathname).toBe('/products');
+  });
 })
