@@ -31,8 +31,8 @@ describe('verify homepage have correct elements and actions expected', () => {
     expect(header).toBeInTheDocument();
     expect(logo).toBeInTheDocument();
 
-    expect(logo).toHaveAttribute('src', /logo/i);
-    expect(logo).toHaveAttribute('alt', /logo/i);
+    expect(logo).not.toHaveAttribute('src', '');
+    expect(logo).toHaveAttribute('alt', 'logo');
   });
 
   it('have verify in email and password', () => {
