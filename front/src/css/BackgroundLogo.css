@@ -1,0 +1,18 @@
+.background-logo {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  bottom: 50%;
+  width: 100%;
+  z-index: 0;
+}
+
+.background-logo h1 {
+  color: var(--button-text1);
+}
+
+.background-logo .logo {
+  margin: 0 5px;
+  width: 50px;
+}
