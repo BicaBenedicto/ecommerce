@@ -1,0 +1,16 @@
+header {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+header h1 {
+  color: var(--button-text1);
+}
+
+header .logo {
+  margin: 0 5px;
+  width: 50px;
+}

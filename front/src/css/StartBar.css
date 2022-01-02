@@ -1,0 +1,37 @@
+.start-bar {
+  background-color: var(--illustration-secondary1);
+  top: 0;
+  left: 0;
+  padding: 0 5px;
+  position: fixed;
+  width: 100%;
+}
+
+.start-bar ul {
+  align-items: center;
+  color: var(--illustration-stroke1);
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+  width: 100%;
+}
+
+.start-bar label {
+  display: flex;
+  flex-grow: 1;
+}
+
+.start-bar label input {
+  border: none;
+  border-radius: 5px;
+  padding: 5px 30px;
+  width: 100%;
+}
+
+.start-bar label img {
+  transform: translateX(-25px);
+}
+
+.start-bar .filter, .start-bar .cart {
+  margin: 0 10px;
+}
