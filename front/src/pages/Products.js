@@ -1,14 +1,18 @@
 import React from 'react';
 import EndBar from '../components/EndBar';
-import Header from '../components/Header';
+import BackgroundLogo from '../components/BackgroundLogo';
 import StartBar from '../components/StartBar';
-import '../css/Home.css';
+import Categories from '../components/Categories';
+import PopularItems from '../components/PopularItems';
+import '../css/Products.css';
 
 export default function Home() {
   return (
     <main>
-      <Header />
       <StartBar />
+      <BackgroundLogo />
+      <Categories quant={4}/>
+      <PopularItems quant={3}/>
       <EndBar />
     </main>
   )

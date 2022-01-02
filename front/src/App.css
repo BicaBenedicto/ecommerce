@@ -22,5 +22,6 @@ body, #root {
   background-color: var(--background1);
   color: var(--paragraph1);
   height: 100vh;
+  position: relative;
   width: 100%;
 }
