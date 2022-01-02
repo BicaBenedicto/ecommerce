@@ -1,0 +1,46 @@
+main {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+}
+
+form label {
+  align-items: center;
+  display: flex;
+}
+
+form input {
+  border: none;
+  border-radius: 10px;
+  height: 30px;
+  margin: 10px 0;
+  padding: 10px 30px;
+}
+
+form .icon-inputs {
+  transform: translateX(23px);
+}
+
+form button {
+  background-color: var(--button1);
+  border: none;
+  border-radius: 10px;
+  color: var(--button-text1);
+  font-weight: 700;
+  height: 30px;
+  margin: 10px 0;
+}
+
+form button:disabled {
+  background-color: var(--button-disabled1);
+  font-weight: 100;
+}

@@ -1,0 +1,33 @@
+.end-bar {
+  background-color: var(--illustration-secondary1);
+  bottom: 0;
+  left: 0;
+  padding: 10px 5px;
+  position: fixed;
+  width: 100%;
+}
+
+.end-bar ul {
+  align-items: center;
+  color: var(--illustration-stroke1);
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+  width: 100%;
+}
+
+.category {
+  align-items: center;
+  border-radius: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  height: 25px;
+  width: 25px;
+}
+
+.category img {
+  margin: 1px 2px;
+  height: 7px;
+  width: 7px;
+}
