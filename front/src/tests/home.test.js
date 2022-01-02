@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, render, fireEvent } from '@testing-library/react';
+import { screen, fireEvent, waitFor } from '@testing-library/react';
 import App from '../App';
 import renderWithRouter from './services/renderWithRouter';
 
@@ -13,7 +13,7 @@ const WRONG_PASSWORD = 'abc12';
 
 describe('verify homepage have correct elements and actions expected', () => {
   it('have login inputs', () => {
-    render(<App />);
+    renderWithRouter(<App />);
 
     const [inputEmail] = screen.queryAllByPlaceholderText(EMAIL, 'input');
     const [inputPassword] = screen.queryAllByPlaceholderText(PASSWORD_SEARCH, 'input');
@@ -23,7 +23,7 @@ describe('verify homepage have correct elements and actions expected', () => {
   });
 
   it('have header component with logo', () => {
-    render(<App />);
+    renderWithRouter(<App />);
 
     const header = screen.queryByRole('heading', { name: 'E-commerce', level: 1 });
     const [logo] = screen.queryAllByRole('img');
@@ -36,7 +36,7 @@ describe('verify homepage have correct elements and actions expected', () => {
   });
 
   it('have verify in email and password', () => {
-    render(<App />);
+    renderWithRouter(<App />);
 
     const [inputEmail] = screen.queryAllByPlaceholderText(EMAIL, 'input');
     const [inputPassword] = screen.queryAllByPlaceholderText(PASSWORD_SEARCH, 'input');
@@ -74,7 +74,7 @@ describe('verify homepage have correct elements and actions expected', () => {
   });
 
   it('redirect in login button', () => {
-    const { history } = renderWithRouter(<App />);;
+    renderWithRouter(<App />);
 
     const [inputEmail] = screen.queryAllByPlaceholderText(EMAIL, 'input');
     const [inputPassword] = screen.queryAllByPlaceholderText(PASSWORD_SEARCH, 'input');
@@ -91,8 +91,5 @@ describe('verify homepage have correct elements and actions expected', () => {
 
     expect(inputEmail).not.toBeInTheDocument();
     expect(inputPassword).not.toBeInTheDocument();
-
-    const { pathname } = history.location;
-    expect(pathname).toBe('/products');
   });
 })

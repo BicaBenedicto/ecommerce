@@ -10,21 +10,21 @@ export default function Login() {
   const [password, setPassword] = useState('');
 
   useEffect(() => {
+    const verifyEmailAndPassword = () => {
+      const EMAIL_REGEX = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i;
+  
+      const MIN_PASSWORD = 6;
+      const EMAIL_VERIFY = !EMAIL_REGEX.test(email) || !email;
+      const PASSWORD_VERIFY = password.length < MIN_PASSWORD || !password;
+      
+      if(!EMAIL_VERIFY && !PASSWORD_VERIFY) {
+        return toggleDisabled(false);
+      }
+      return toggleDisabled(true);
+    }
+
     verifyEmailAndPassword();
   }, [email, password]);
-
-  const verifyEmailAndPassword = () => {
-    const EMAIL_REGEX = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i;
-
-    const MIN_PASSWORD = 6;
-    const EMAIL_VERIFY = !EMAIL_REGEX.test(email) || !email;
-    const PASSWORD_VERIFY = password.length < MIN_PASSWORD || !password;
-    
-    if(!EMAIL_VERIFY && !PASSWORD_VERIFY) {
-      return toggleDisabled(false);
-    }
-    return toggleDisabled(true);
-  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
