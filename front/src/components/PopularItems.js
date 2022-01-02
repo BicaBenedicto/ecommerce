@@ -3,11 +3,13 @@ import { ITEMS_DEFAULT } from '../assets/data';
 import likeIcon from '../imgs/icons/like-icon.svg';
 import '../css/PopularItems.css';
 
-export default function PopularItems() {
-  const renderListItems = (listItems = ITEMS_DEFAULT) => (
-    Object.keys(listItems).map((categorie) => (
+export default function PopularItems(props) {
+  const renderListItems = (listItems = ITEMS_DEFAULT) => {
+    const QUANT = (!props.quant ? Object.keys(listItems).length : props.quant);
+
+    return Object.keys(listItems).map((categorie) => (
     listItems[categorie].sort((a, b) => b.like - a.like)
-      .filter(({ like }, index) => index <= 1 && like !== 0).map(({name, image, like}, index) => (
+      .filter(({ like }, index) => (index + 1) <= QUANT && like !== 0).map(({name, image, like}, index) => (
       <div
         className='list-item'
         key={ index }
@@ -19,8 +21,9 @@ export default function PopularItems() {
           {like}
         </span>
       </div>
-    ))))
-  )
+    ))));
+  };
+
   return (
     <section className='list-main'>
       <h2 className='title'>Populares</h2>

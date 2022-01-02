@@ -2,9 +2,10 @@ import React from 'react';
 import { CATEGORIES_DEFAULT } from '../assets/data';
 import '../css/Categories.css';
 
-export default function Categories() {
+export default function Categories(props) {
+  const QUANT = (!props.quant ? 4 : props.quant);
   const renderCategories = (categories = CATEGORIES_DEFAULT) => (
-    categories.map(({name, image}, index) => (
+    categories.filter((_item, index) => index < QUANT).map(({name, image}, index) => (
       <div
         className='category-item'
         key={ index }

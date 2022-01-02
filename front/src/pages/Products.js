@@ -11,8 +11,8 @@ export default function Home() {
     <main>
       <StartBar />
       <BackgroundLogo />
-      <Categories />
-      <PopularItems />
+      <Categories quant={4}/>
+      <PopularItems quant={3}/>
       <EndBar />
     </main>
   )
