@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import Context from '../services/Context';
 import userIcon from '../imgs/icons/user-icon.svg';
 import lockIcon from '../imgs/icons/lock-icon.svg';

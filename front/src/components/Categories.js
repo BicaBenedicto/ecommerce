@@ -3,9 +3,9 @@ import { CATEGORIES_DEFAULT } from '../assets/data';
 import '../css/Categories.css';
 
 export default function Categories(props) {
-  const QUANT = (!props.quant ? 4 : props.quant);
-  const renderCategories = (categories = CATEGORIES_DEFAULT) => (
-    categories.filter((_item, index) => index < QUANT).map(({name, image}, index) => (
+  const renderCategories = (categories = CATEGORIES_DEFAULT) => {
+    const QUANT = (!props.quant ? categories.length : props.quant);
+    return categories.filter((_item, index) => index < QUANT).map(({name, image}, index) => (
       <div
         className='category-item'
         key={ index }
@@ -14,7 +14,7 @@ export default function Categories(props) {
         <h2>{ name }</h2>
       </div>
     ))
-  )
+  }
   return (
     <section className='categories-main'>
       <h2 className='title'>Categorias</h2>

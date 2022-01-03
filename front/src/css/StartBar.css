@@ -17,6 +17,11 @@
   width: 100%;
 }
 
+.start-bar li .icone {
+  color: var(--illustration-stroke1);
+  font-size: 17px;
+}
+
 .start-bar label {
   display: flex;
   flex-grow: 1;
@@ -29,7 +34,8 @@
   width: 100%;
 }
 
-.start-bar label img {
+.start-bar label .search-icone {
+  color: var(--illustration-stroke1);
   transform: translateX(-25px);
 }
 
