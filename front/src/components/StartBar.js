@@ -1,24 +1,30 @@
-import React from 'react';
-import searchIcon from '../imgs/icons/search-icon.svg';
-import cartIcon from '../imgs/icons/cart-icon.svg';
-import filterIcon from '../imgs/icons/filter-icon.svg';
+import React, { useContext } from 'react';
 import '../css/StartBar.css';
+import Context from '../services/Context';
+import { useNavigate } from 'react-router';
 
 export default function StartBar() {
+  const { searchBar } = useContext(Context);
+  const { search, setSearch } = searchBar;
+  const navigate = useNavigate();
   return (
-    <form className='start-bar'>
+    <form className='start-bar' onSubmit={ () => navigate('/search')}>
       <ul>
         <label>
           <input
             type="text"
+            value={ search }
+            onChange={ (e) => setSearch(e.target.value) }
           />
-          <img src={ searchIcon } alt='search-icon' />
+          <i className="bi-search search-icone"></i>
         </label>
-        <li className='filter'>
-          <img src={ filterIcon } alt='filter-icon' />
+        <li className='filter-icon'>
+          <i className="bi-funnel-fill icone"></i>
         </li>
-        <li className='cart'>
-          <img src={ cartIcon } alt='cart-icon' />
+        <li className='cart-icon'>
+          <button type='button' onClick={ () => navigate('/cart') }>
+            <i className="bi-cart3 icone"></i>
+          </button>
         </li>
       </ul>
     </form>

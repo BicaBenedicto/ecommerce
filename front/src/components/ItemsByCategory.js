@@ -2,24 +2,26 @@ import React from 'react';
 import { useNavigate } from 'react-router';
 import { ITEMS_DEFAULT } from '../assets/data';
 import likeIcon from '../imgs/icons/like-icon.svg';
-import '../css/PopularItems.css';
+import '../css/SearchItems.css';
+import { useLocation } from 'react-router';
 
-export default function PopularItems(props) {
+export default function ItemsByCategory() {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const [, category] = pathname.split('/categories/');
 
   const onProductClick = (id) => {
     navigate(`/products/${id}`);
   }
-  const renderListItems = (listItems = ITEMS_DEFAULT) => {
-    const QUANT = (!props.quant ? Object.keys(listItems).length : props.quant);
 
-    return Object.keys(listItems).map((categorie) => (
-    listItems[categorie].items.sort((a, b) => b.like - a.like)
-      .filter(({ like }, index) => (index + 1) <= QUANT && like !== 0).map(({name, image, like, id, price}, index) => (
+  const renderListItems = (listItems = ITEMS_DEFAULT) => {
+
+    return listItems[category].items
+      .map(({name, image, like, price, id}, index) => (
       <button
-        className='list-item'
-        onClick={() => onProductClick(id)}
+        className='category-list-item'
         key={ index }
+        onClick={ () => onProductClick(id)}
       >
         <div style={ { 'backgroundImage': `url(${image})` } }></div>
         <h2>{ name }</h2>
@@ -29,13 +31,13 @@ export default function PopularItems(props) {
           {like}
         </span>
       </button>
-    ))));
+    ));
   };
 
   return (
-    <section className='list-main'>
-      <h2 className='title'>Populares</h2>
-      <div className='list'>
+    <section className='category-list-main'>
+      <h2 className='title'>{ITEMS_DEFAULT[category].name}</h2>
+      <div className='category-list'>
         { renderListItems() }
       </div>
     </section>

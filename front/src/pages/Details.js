@@ -2,17 +2,14 @@ import React from 'react';
 import EndBar from '../components/EndBar';
 import BackgroundLogo from '../components/BackgroundLogo';
 import StartBar from '../components/StartBar';
-import Categories from '../components/Categories';
-import PopularItems from '../components/PopularItems';
-import '../css/Products.css';
+import ProductDetails from '../components/ProductDetails';
 
-export default function Products() {
+export default function Details() {
   return (
     <main>
       <StartBar />
       <BackgroundLogo />
-      <Categories quant={4}/>
-      <PopularItems quant={3}/>
+      <ProductDetails />
       <EndBar />
     </main>
   )

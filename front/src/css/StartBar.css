@@ -17,6 +17,11 @@
   width: 100%;
 }
 
+.start-bar li .icone {
+  color: var(--illustration-stroke1);
+  font-size: 17px;
+}
+
 .start-bar label {
   display: flex;
   flex-grow: 1;
@@ -29,10 +34,16 @@
   width: 100%;
 }
 
-.start-bar label img {
+.start-bar label .search-icone {
+  color: var(--illustration-stroke1);
   transform: translateX(-25px);
 }
 
-.start-bar .filter, .start-bar .cart {
+.start-bar .filter-icon, .start-bar .cart-icon {
   margin: 0 10px;
+}
+
+.start-bar .filter-icon button, .start-bar .cart-icon button {
+  border: none;
+  background-color: transparent;
 }

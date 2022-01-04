@@ -1,0 +1,23 @@
+.user-profile {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.user-profile .user-photo {
+  width: 150px;
+}
+
+.user-profile div {
+  justify-content: flex-end;
+  display: flex;
+  padding: 0 20px;
+  width: 100%;
+}
+
+.user-profile .edit-profile {
+  border: none;
+  background-color: transparent;
+  display: flex;
+}
