@@ -33,16 +33,11 @@ export default function SearchItems() {
   };
 
   return (
-    <>
-      <StartBar />
-      <BackgroundLogo />
-        <section className='search-list-main'>
-          <h2 className='title'>{searchBar.search}</h2>
-          <div className='search-list'>
-            { renderListItems() }
-          </div>
-        </section>
-      <EndBar />
-    </>
+    <section className='search-list-main'>
+      <h2 className='title'>{searchBar.search}</h2>
+      <div className='search-list'>
+        { renderListItems() }
+      </div>
+    </section>
   )
 }

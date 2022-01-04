@@ -53,10 +53,18 @@
   z-index: 1;
 }
 
-.search-list .search-list-item span {
+.search .search-item h3 {
   color: var(--illustration-tertiary1);
-  text-align: center;
+  left: 2px;
   position: absolute;
+  bottom: 2px;
+  z-index: 1;
+}
+
+.search .search-item span {
+  color: var(--illustration-tertiary1);
+  position: absolute;
+  right: 2px;
   bottom: 2px;
   z-index: 1;
 }

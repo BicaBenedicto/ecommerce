@@ -18,11 +18,13 @@ export default function StartBar() {
           />
           <i className="bi-search search-icone"></i>
         </label>
-        <li className='filter'>
+        <li className='filter-icon'>
           <i className="bi-funnel-fill icone"></i>
         </li>
-        <li className='cart'>
-          <i className="bi-cart3 icone"></i>
+        <li className='cart-icon'>
+          <button type='button' onClick={ () => navigate('/cart') }>
+            <i className="bi-cart3 icone"></i>
+          </button>
         </li>
       </ul>
     </form>

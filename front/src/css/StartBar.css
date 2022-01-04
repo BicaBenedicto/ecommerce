@@ -39,6 +39,11 @@
   transform: translateX(-25px);
 }
 
-.start-bar .filter, .start-bar .cart {
+.start-bar .filter-icon, .start-bar .cart-icon {
   margin: 0 10px;
+}
+
+.start-bar .filter-icon button, .start-bar .cart-icon button {
+  border: none;
+  background-color: transparent;
 }
