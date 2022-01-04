@@ -8,7 +8,7 @@ export default function PopularItems(props) {
     const QUANT = (!props.quant ? Object.keys(listItems).length : props.quant);
 
     return Object.keys(listItems).map((categorie) => (
-    listItems[categorie].sort((a, b) => b.like - a.like)
+    listItems[categorie].items.sort((a, b) => b.like - a.like)
       .filter(({ like }, index) => (index + 1) <= QUANT && like !== 0).map(({name, image, like}, index) => (
       <div
         className='list-item'

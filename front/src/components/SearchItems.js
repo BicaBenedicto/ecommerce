@@ -12,7 +12,7 @@ export default function SearchItems() {
   const renderListItems = (listItems = ITEMS_DEFAULT) => {
 
     return Object.keys(listItems).map((categorie) => (
-    listItems[categorie]
+    listItems[categorie].items
       .filter(({ name }) => {
         if(searchBar.search) return name.toLowerCase().includes(searchBar.search.toLowerCase());
         return false;
