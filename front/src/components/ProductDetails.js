@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { ITEMS_DEFAULT } from '../assets/data';
 import { useLocation } from 'react-router';
 import Context from '../services/Context';
@@ -14,13 +14,24 @@ export default function ProductDetails() {
   const { pathname } = useLocation();
   const [, products] = pathname.split('/products/');
 
+  useEffect(() => {
+    const saveCartList = JSON.parse(localStorage.getItem('cart'));
+    if (saveCartList) {
+      cart.addCartList(saveCartList);
+    } else {
+      localStorage.setItem('cart', JSON.stringify([]));
+    }
+  }, []);
+
   const addOrRemoveItemCart = (productItem) => {
     const haveItem = cart.cartList.some(({id}) => id === productItem.id);
     if(haveItem) {
       const newList = cart.cartList.filter(({id}) => id !== productItem.id);
+      localStorage.setItem('cart', JSON.stringify(newList));
       return cart.addCartList(newList);
     }
-    return cart.addCartList([...cart.cartList, productItem]);
+    localStorage.setItem('cart', JSON.stringify([...cart.cartList, { ...productItem, quant: 1}]));
+    return cart.addCartList([...cart.cartList, { ...productItem, quant: 1}]);
   }
 
   const renderListItems = (listItems = ITEMS_DEFAULT) => {

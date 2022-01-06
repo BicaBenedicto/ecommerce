@@ -1,31 +1,32 @@
-import React, { useContext } from 'react';
-import { useNavigate } from 'react-router';
+import React, { useContext, useEffect } from 'react';
 import Context from '../services/Context';
 import '../css/CartList.css';
+import CartItem from './CartItem';
 
 export default function CartList() {
   const { cart } = useContext(Context);
   const { cartList: cartItems } = cart;
-  const navigate = useNavigate();
 
-  const onProductClick = (id) => {
-    navigate(`/products/${id}`);
-  }
+  useEffect(() => {
+    const saveCartList = JSON.parse(localStorage.getItem('cart'));
+    if (saveCartList) {
+      cart.addCartList(saveCartList);
+    } else {
+      localStorage.setItem('cart', JSON.stringify([]));
+    }
+  }, []);
 
   const renderListItems = () => {
     return cartItems
-        .map(({name, image, id, quant, price}) => (
-          <button
-            className='cart-item'
+        .map(({name, image, id, price, quant}) => (
+          <CartItem
             key={ id }
-            onClick={ () => onProductClick(id) }
-          >
-            <div style={ { 'backgroundImage': `url(${image})` } }></div>
-            <h2 className='product-name'>{ name }</h2>
-            <h2 className='product-price'>R$ {price.toFixed(2).toString().replace('.', ',')}</h2>
-            <i className="bi-cart-plus-fill icone-add"></i>
-            <i className="bi-cart-dash-fill icone-sub"></i>
-          </button>
+            name={ name }
+            image={ image }
+            id={ id }
+            price={ price }
+            quant={ quant }
+          />
     ));
   };
 
@@ -34,8 +35,14 @@ export default function CartList() {
       <div className='cart'>
         { cart.cartList.length === 0
         ? <h1 className='title'>Seu carrinho está vazio</h1> 
-        : renderListItems() }
+        : (
+          <>
+            {renderListItems()}
+            <h2>Total de R$ {cartItems.reduce((acc, value) => acc + (value.quant * value.price), 0)
+              .toFixed(2).toString().replace('.', ',')}</h2>
+          </>
+        ) }
       </div>
     </section>
-  )
+  );
 }
