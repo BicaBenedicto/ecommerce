@@ -15,14 +15,14 @@ class UserRepository {
                     password
                 ) 
                 VALUES ($1, crypt($2, '${authenticationCryptKey}')) 
-                RETURNING uuid
+                RETURNING id
             `;
 
             const values = [user.username, user.password];
-            const queryResult = await db.query<{ uuid: string }>(script, values);
+            const queryResult = await db.query<{ id: string }>(script, values);
 
             const [row] = queryResult.rows;
-            return row.uuid;
+            return row.id;
         } catch (error) {
             throw new DatabaseError({ log: 'Erro ao inserir usuário', data: error });
         }
@@ -35,45 +35,45 @@ class UserRepository {
                 SET
                     username = $2,
                     password = crypt($3, '${authenticationCryptKey}')
-                WHERE uuid = $1            
+                WHERE id = $1            
             `;
 
-            const values = [user.uuid, user.username, user.password];
+            const values = [user.id, user.username, user.password];
             await db.query(script, values);
         } catch (error) {
             throw new DatabaseError({ log: 'Erro ao atualizar usuário', data: error });
         }
     }
 
-    async remove(uuid: string): Promise<void> {
+    async remove(id: string): Promise<void> {
         try {
             const script = `
                 DELETE 
                 FROM application_user 
-                WHERE uuid = $1
+                WHERE id = $1
             `;
 
-            const values = [uuid];
+            const values = [id];
             await db.query(script, values);
         } catch (error) {
             throw new DatabaseError({ log: 'Erro ao deletar usuário', data: error });
         }
     }
 
-    async findByUuid(uuid: string): Promise<User | null> {
+    async findByid(id: string): Promise<User | null> {
         try {
             const query = `
                 SELECT 
-                    uuid, 
+                    id, 
                     username
                 FROM application_user
-                WHERE uuid = $1
+                WHERE id = $1
             `;
-            const queryResult = await db.query<User>(query, [uuid]);
+            const queryResult = await db.query<User>(query, [id]);
             const [row] = queryResult.rows;
             return !row ? null : row;
         } catch (error) {
-            throw new DatabaseError({ log: 'Erro ao buscar usuário por uuid', data: error });
+            throw new DatabaseError({ log: 'Erro ao buscar usuário por id', data: error });
         }
     }
 
@@ -81,7 +81,7 @@ class UserRepository {
         try {
             const query = `
                 SELECT 
-                    uuid, 
+                    id, 
                     username
                 FROM application_user
                 WHERE username = $1

@@ -4,6 +4,7 @@ import errorHanddlerMiddleware from './middlewares/error-handdles.middleware';
 import jwtAuthenticationMiddleware from './middlewares/jwt-authentication.middleware';
 import authenticationRoute from './routes/authentication.route';
 import userRoute from './routes/user.route';
+import categoryRoute from './routes/category.route';
 
 const app = express();
 
@@ -11,6 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/authentication', authenticationRoute);
+app.use('/categories', categoryRoute)
 app.use('/users', jwtAuthenticationMiddleware, userRoute);
 
 app.use(errorHanddlerMiddleware);

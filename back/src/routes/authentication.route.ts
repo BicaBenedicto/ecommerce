@@ -17,8 +17,8 @@ const route = Router();
 route.post('/token', basicAuthMiddleware, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const token = JWT.sign({}, 'teste', {
-            audience: 'consumer-uuid or api key',
-            subject: req.user?.uuid
+            audience: 'consumer-id or api key',
+            subject: req.user?.id
         });
     
         return res.status(StatusCodes.OK).json({ token });

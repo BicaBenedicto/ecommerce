@@ -28,7 +28,7 @@ const jwtAuthenticationMiddleware = async (req: Request, res: Response, next: Ne
                 throw new ForbiddenError({ log: 'Invalid token' });
             }
 
-            const user = await userRepository.findByUuid(tokenPayload.sub);
+            const user = await userRepository.findByid(tokenPayload.sub);
             req.user = user;
             return next();
         } catch (error) {

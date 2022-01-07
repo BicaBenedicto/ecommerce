@@ -3,6 +3,6 @@
       "uri": "your_database_uri"
   },
   "authentication": {
-      "cryptKey": "my_salt"
+      "cryptKey": "=q5q)weDGbQC"
   }
 }

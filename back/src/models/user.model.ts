@@ -1,6 +1,6 @@
 
 export type User = {
-  uuid: string;
+  id: string;
   username: string;
   password?: string;
 }

@@ -5,10 +5,10 @@ import userRepository from '../repositories/user.repository';
 
 const route = Router();
 
-route.get('/:uuid', async (req: Request<{ uuid: string }>, res: Response, next: NextFunction) => {
+route.get('/:id', async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
     try {
-        const uuid = req.params.uuid;
-        const user: User | null = await userRepository.findByUuid(uuid);
+        const id = req.params.id;
+        const user: User | null = await userRepository.findByid(id);
 
         if (!user) {
             return res.sendStatus(StatusCodes.NO_CONTENT);
@@ -23,18 +23,18 @@ route.get('/:uuid', async (req: Request<{ uuid: string }>, res: Response, next: 
 route.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user: User = req.body;
-        const uuid = await userRepository.create(user);
-        return res.status(StatusCodes.CREATED).json({ uuid });
+        const id = await userRepository.create(user);
+        return res.status(StatusCodes.CREATED).json({ id });
     } catch (error) {
         return next(error);
     }
 });
 
-route.put('/:uuid', async (req: Request<{ uuid: string }>, res: Response, next: NextFunction) => {
+route.put('/:id', async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
     try {
-        const uuid = req.params.uuid;
+        const id = req.params.id;
         const user: User = req.body;
-        user.uuid = uuid;
+        user.id = id;
         const updatedUser = await userRepository.update(user);
         return res.status(StatusCodes.OK).json(updatedUser);
     } catch (error) {
@@ -42,10 +42,10 @@ route.put('/:uuid', async (req: Request<{ uuid: string }>, res: Response, next: 
     }
 });
 
-route.delete('/:uuid', async (req: Request<{ uuid: string }>, res: Response, next: NextFunction) => {
+route.delete('/:id', async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
     try {
-        const uuid = req.params.uuid;
-        await userRepository.remove(uuid);
+        const id = req.params.id;
+        await userRepository.remove(id);
         return res.sendStatus(StatusCodes.OK);
     } catch (error) {
         return next(error);
