@@ -9,10 +9,10 @@ import checkCartIcon from '../imgs/icons/cart-check-icon.svg';
 import '../css/ProductDetails.css';
 
 export default function ProductDetails() {
-  const { login, cart } = useContext(Context);
+  const { login, cart, products } = useContext(Context);
   const [commentary, setCommentary] = useState('');
   const { pathname } = useLocation();
-  const [, products] = pathname.split('/products/');
+  const [, productId] = pathname.split('/products/');
 
   useEffect(() => {
     const saveCartList = JSON.parse(localStorage.getItem('cart'));
@@ -35,9 +35,9 @@ export default function ProductDetails() {
   }
 
   const renderListItems = (listItems = ITEMS_DEFAULT) => {
-    return Object.keys(listItems).map((categorie) => (
-    listItems[categorie].items
-      .filter(({ id }) => Number(products) === id).map((productItem) => {
+    return listItems
+      .filter(({ id }) => Number(productId) === id)
+        .map((productItem) => {
         const {id, name, image, like, unlike, comments, price} = productItem;
       return (<div
         className='product-item'
@@ -87,12 +87,12 @@ export default function ProductDetails() {
           </li>
         </ul>
       </div>)
-    })));
+    });
   };
 
   return (
     <section className='product-main'>
-        { renderListItems() }
+        { renderListItems(products.products) }
     </section>
   )
 }

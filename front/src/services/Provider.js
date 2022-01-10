@@ -6,6 +6,9 @@ export default function Provider({ children }) {
   const [name, setName] = useState('Anônimo');
   const [search, setSearch] = useState('');
   const [cartList, addCartList] = useState([]);
+  const [category, setCategory] = useState([]);
+  const [products, setProducts] = useState([]);
+
   const contextValue = {
     login: {
       name,
@@ -21,6 +24,12 @@ export default function Provider({ children }) {
       cartList,
       addCartList,
     },
+    products: {
+      category,
+      setCategory,
+      products,
+      setProducts,
+    }
   };
 
   return (
