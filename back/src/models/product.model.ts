@@ -3,8 +3,8 @@ export type Product = {
   price: number;
   item_name: string;
   item_image: string;
-  likes: number;
-  unlikes: number;
+  item_likes: number;
+  item_unlikes: number;
   category: string;
   comment: any;
 }

@@ -49,7 +49,7 @@ route.put('/:id', async (req: Request<{ id: string }>, res: Response, next: Next
     try {
         const id = req.params.id;
         const product: Product = req.body;
-        const updatedProduct = await ProductRepository.update(product);
+        const updatedProduct = await ProductRepository.update(id, product);
         return res.status(StatusCodes.OK).json(updatedProduct);
     } catch (error) {
         return next(error);

@@ -43,7 +43,7 @@ class UserRepository {
                     age = $5,
                     gender = $6,
                     location = $7
-                WHERE id = $1            
+                WHERE id = $1
             `;
 
             const values = [user.id, user.username, user.password, user.email, user.age, user.gender, user.location];

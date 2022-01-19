@@ -10,15 +10,13 @@ class CategoryRepository {
                 INSERT INTO application_categories (
                     category, 
                     category_name,
-                    category_image,
+                    category_image
                 ) 
-                VALUES ($1, $2, $3)) 
+                VALUES ($1, $2, $3)
                 RETURNING category
             `;
-
             const values = [category.category, category.category_name, category.category_image];
             const queryResult = await db.query<{ category: string }>(script, values);
-
             const [row] = queryResult.rows;
             return row.category;
         } catch (error) {
@@ -26,7 +24,7 @@ class CategoryRepository {
         }
     }
 
-    async update(category: Category): Promise<void> {
+    async update(categoryId: string, category: Category): Promise<void> {
         try {
             const script = `
                 UPDATE application_categories
@@ -35,8 +33,7 @@ class CategoryRepository {
                     category_image = $3
                 WHERE category = $1
             `;
-
-            const values = [category.category, category.category_name, category.category_image];
+            const values = [categoryId, category.category_name, category.category_image];
             await db.query(script, values);
         } catch (error) {
             throw new DatabaseError({ log: 'Erro ao atualizar categoria', data: error });

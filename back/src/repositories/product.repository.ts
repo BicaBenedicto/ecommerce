@@ -14,14 +14,14 @@ class ProductRepository {
                     item_image,
                     item_likes,
                     item_unlikes,
-                    category,
+                    category
                 )
                 VALUES ($1, $2, $3, $4, $5, $6, $7)
                 RETURNING id;
             `;
 
             const values = [product.id, product.price, product.item_name,
-                product.item_image, product.likes, product.unlikes, product.category];
+                product.item_image, product.item_likes, product.item_unlikes, product.category];
             const queryResult = await db.query<{ id: string }>(script, values);
 
             const [row] = queryResult.rows;
@@ -31,7 +31,7 @@ class ProductRepository {
         }
     }
 
-    async update(product: Product): Promise<void> {
+    async update(id: string, product: Product): Promise<void> {
         try {
             const script = `
                 UPDATE application_products
@@ -41,12 +41,12 @@ class ProductRepository {
                     item_image = $4,
                     item_likes = $5,
                     item_unlikes = $6,
-                    category = $7,
+                    category = $7
                 WHERE id = $1;
             `;
 
-            const values = [product.id, product.price, product.item_name,
-                product.item_image, product.likes, product.unlikes, product.category];
+            const values = [id, product.price, product.item_name,
+                product.item_image, product.item_likes, product.item_unlikes, product.category];
             await db.query(script, values);
         } catch (error) {
             throw new DatabaseError({ log: 'Erro ao atualizar produto', data: error });
@@ -100,7 +100,7 @@ class ProductRepository {
                     item_image,
                     item_likes,
                     item_unlikes,
-                    category,
+                    category
                 FROM application_products
                 WHERE item_name = $1;
             `;

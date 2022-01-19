@@ -23,8 +23,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/product/comment', cors(corsOptions), commentRoute);
-app.use('/product', cors(corsOptions), productRoute);
 app.use('/products', cors(corsOptions), productsRoute);
+app.use('/product', productRoute);
 app.use('/category', cors(corsOptions), categoryRoute);
 app.use('/categories', cors(corsOptions), categoriesRoute);
 app.use('/authentication', cors(corsOptions), authenticationRoute);

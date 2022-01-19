@@ -50,8 +50,8 @@ route.put('/:category', async (req: Request<{ category: string }>, res: Response
         const categoryUpdate = req.params.category;
         const category: Category = req.body;
         category.category = categoryUpdate;
-        const updatedCategory = await CategoryRepository.update(category);
-        return res.status(StatusCodes.OK).json(updatedCategory);
+        await CategoryRepository.update(categoryUpdate, category);
+        return res.sendStatus(StatusCodes.OK);
     } catch (error) {
         return next(error);
     }
