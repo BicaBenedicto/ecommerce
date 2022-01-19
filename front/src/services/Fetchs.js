@@ -99,9 +99,9 @@ export const fetchCategory = {
   update: async (cat, updated) => {
     const { category } = URL;
     try {
-      const data = await fetch(`${category.root}${cat}`, METHOD.put(updated));
-      const results = await data.json();
-      return results;
+      await fetch(`${category.root}${cat}`, METHOD.put(updated));
+
+      return 'Atualizado';
     } catch(error) {
       console.error(error);
     }
@@ -225,8 +225,8 @@ export const fetchProduct = {
   delete: async (cat, _empty) => {
     const { product } = URL;
     try {
-      await fetch(`${product.root}${cat}`, METHOD.delete());
-      return 'Produto Deletado';
+      const data = await fetch(`${product.root}${cat}`, METHOD.delete());
+      return data.status;
     } catch(error) {
       console.error(error);
     }

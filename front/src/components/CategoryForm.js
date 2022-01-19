@@ -1,40 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { actionFetchCategories, actionCategories, actionFetchCategory } from '../redux/actions';
+import { actionFetchCategories, actionCategories, actionFetchCategory,
+  actionFetchProducts} from '../redux/actions';
 
 export default function CategoryForm() {
   const dispatch = useDispatch();
   const categories = useSelector((s) => s.categories.categories);
-  const [categorySelected, selectCategory] = useState('');
   const [isEditing, toggleIsEditing] = useState(false);
   const [nameInput, setNameInput] = useState('');
   const [imageInput, setImageInput] = useState('');
-
+  const [categorySelected, selectCategory] = useState('CATEGORY_INIT');
   useEffect(() => {
     dispatch(actionFetchCategories('get'));
   }, []);
 
+  useEffect(() => {
+    if(categories[0]) selectCategory(categories[0].category);
+  }, [categories])
+
   const onEditOrRemoveButton = (type) => {
     const newCategory = {
-      category: nameInput.trim().toLowerCase(),
       category_name: nameInput,
       category_image: imageInput,
     };
 
     switch(type) {
-      case 'editar':
+      case 'edit':
         const categoriesEdited = categories.map((category) => {
           if (category.category === categorySelected) {
             return newCategory;
           }
           return category;
         });
-        actionCategories(categoriesEdited);
+        dispatch(actionCategories(categoriesEdited));
         toggleIsEditing(false);
         return dispatch(actionFetchCategory('update', categorySelected, newCategory));
-      case 'remover':
+      case 'remove':
         const newCategoryList = categories.filter((category) => category.category !== categorySelected);
-        actionCategories(newCategoryList);
+        dispatch(actionCategories(newCategoryList));
+        dispatch(actionFetchProducts('deleteByCategory', categorySelected));
         return dispatch(actionFetchCategory('delete', categorySelected));
       default:
         return null;
@@ -44,13 +48,36 @@ export default function CategoryForm() {
   const onAddCategoryButton = (e) => {
     e.preventDefault();
     const newCategory = {
-      category: nameInput.trim().toLowerCase(),
+      category: nameInput.toLowerCase().trim(),
       category_name: nameInput,
       category_image: imageInput,
     };
-    actionCategories([...categories, newCategory]);
+    dispatch(actionCategories([...categories, newCategory]));
     return dispatch(actionFetchCategory('create', newCategory));
   };
+
+  const inputsRender = () => (
+    <>
+      <label htmlFor="name-input">
+          Nome da categoria: 
+          <input
+            type="text"
+            id="name-input"
+            value={ nameInput }
+            onChange={ (e) => setNameInput(e.target.value) }
+          />
+        </label>
+        <label htmlFor="image-input">
+          URL da imagem: 
+          <input
+            type="text"
+            id="image-input"
+            value={ imageInput }
+            onChange={ (e) => setImageInput(e.target.value) }
+          />
+        </label>
+    </>
+  );
 
   return (
     <form onSubmit={ onAddCategoryButton }>
@@ -66,16 +93,7 @@ export default function CategoryForm() {
         </select>
         {isEditing
         ? <>
-          <input
-            type="text"
-            value={ nameInput }
-            onChange={ (e) => setNameInput(e.target.value) }
-          />
-          <input
-            type="text"
-            value={ imageInput }
-            onChange={ (e) => setImageInput(e.target.value) }
-          />
+          { inputsRender() }
           <button
             type="button"
             onClick={ () => onEditOrRemoveButton('edit') }
@@ -99,24 +117,7 @@ export default function CategoryForm() {
         </>}
       </div>}
       <div>
-        <label htmlFor="name-input">
-          Nome da categoria: 
-          <input
-            type="text"
-            id="name-input"
-            value={ nameInput }
-            onChange={ (e) => setNameInput(e.target.value) }
-          />
-        </label>
-        <label htmlFor="image-input">
-          URL da imagem: 
-          <input
-            type="text"
-            id="image-input"
-            value={ imageInput }
-            onChange={ (e) => setImageInput(e.target.value) }
-          />
-        </label>
+        { inputsRender() }
         <button
           type="submit"
         >

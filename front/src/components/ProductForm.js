@@ -13,36 +13,41 @@ export default function ProductForm() {
   const [nameInput, setNameInput] = useState('');
   const [imageInput, setImageInput] = useState('');
   const [priceInput, setPriceInput] = useState(0);
+  const [categoryFilter, setCategoryFilter] = useState('All');
 
   useEffect(() => {
     dispatch(actionFetchCategories('get'));
     dispatch(actionFetchProducts('getAllProducts'));
   }, []);
 
+  useEffect(() => {
+    if (products[0] && !productSelected) selectProduct(products[0].id);
+    if (categories[0] && !categorySelected) selectCategory(categories[0].category);
+  }, [categorySelected, productSelected, categories, products]);
+
   const onEditOrRemoveButton = (type) => {
     const newProduct = {
+      id: productSelected,
       price: priceInput,
       item_name: nameInput,
       item_image: imageInput,
-      item_likes: 0,
-      item_unlike: 0,
       category: categorySelected,
     };
 
     switch(type) {
-      case 'editar':
+      case 'edit':
         const categoriesEdited = categories.map((product) => {
-          if (product.id === productSelected) {
-            return newProduct;
+          if (Number(product.id === productSelected)) {
+            return {...newProduct, item_likes: product.item_likes, item_unlikes: product.item_unlikes};
           }
           return product;
         });
-        actionProducts(categoriesEdited);
+        dispatch(actionProducts(categoriesEdited));
         toggleIsEditing(false);
         return dispatch(actionFetchProduct('update', productSelected, newProduct));
-      case 'remover':
+      case 'remove':
         const newProductList = categories.filter((category) => category.category !== productSelected);
-        actionProducts(newProductList);
+        dispatch(actionProducts(newProductList));
         return dispatch(actionFetchProduct('delete', productSelected));
       default:
         return null;
@@ -52,11 +57,15 @@ export default function ProductForm() {
   const onAddCategoryButton = (e) => {
     e.preventDefault();
     const newProduct = {
-      category: nameInput.trim().toLowerCase(),
-      category_name: nameInput,
-      category_image: imageInput,
+      id: priceInput * imageInput.length || nameInput.length,
+      price: priceInput,
+      item_name: nameInput,
+      item_image: imageInput,
+      item_likes: 0,
+      item_unlikes: 0,
+      category: categorySelected,
     };
-    actionProducts([...categories, newProduct]);
+    dispatch(actionProducts([...products, newProduct]));
     return dispatch(actionFetchProduct('create', newProduct));
   };
 
@@ -102,16 +111,39 @@ export default function ProductForm() {
 
   return (
     <form onSubmit={ onAddCategoryButton }>
-      { products.length !== 0
+      { categories[0]
+      ? <>
+      { products[0]
       && <div>
-        <select
-          value={ productSelected }
-          onChange={ (e) => selectProduct(e.target.value) }
-        >
-          {products.map((product) => (
-            <option value={ product.id }>{ product.item_name}</option>
-          ))}
-        </select>
+        <label htmlFor="filter-category">
+          Filtrar por categoria: 
+          <select
+            id="filter-category"
+            value={ categoryFilter }
+            onChange={ (e) => setCategoryFilter(e.target.value) }
+          >
+            {products.concat({ category: 'All', category_name: 'All'}).map((category) => (
+              <option value={ category.category }>{ category.category_name}</option>
+            ))}
+          </select>
+        </label>
+        <label htmlFor="filter-products">
+          Produtos: 
+          <select
+            id="filter-products"
+            value={ productSelected }
+            onChange={ (e) => selectProduct(e.target.value) }
+          >
+            {products.filter((({ category }) => {
+              if (categoryFilter === 'All') {
+                return true;
+              };
+              return category === categoryFilter;
+            })).map((product) => (
+              <option value={ product.id }>{ product.item_name}</option>
+            ))}
+          </select>
+        </label>
         {isEditing
         ? <>
           { inputsRender() }
@@ -145,6 +177,8 @@ export default function ProductForm() {
           Adicionar
         </button>
       </div>
+      </>
+      : <h2>Adicione uma categoria para conectar os produtos</h2>}
     </form>
   );
 }

@@ -34,7 +34,6 @@ export default function Settings() {
   return (
     <main>
       <StartBar />
-      <BackgroundLogo />
       <form
         onSubmit={ onChangeFormType }
         className="form-type-select"

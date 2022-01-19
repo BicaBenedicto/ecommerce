@@ -9,6 +9,7 @@ import SearchItems from './components/SearchItems';
 import ProductsByCategory from './pages/ProductsByCategory';
 import Details from './pages/Details';
 import Cart from './pages/Cart';
+import Settings from './pages/Settings';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path='/user-profile' element={ <UserProfile /> }/>
         <Route path='/search' element={ <SearchItems /> }/>
         <Route path='/cart' element={ <Cart /> }/>
+        <Route path='/settings' element={ <Settings />}/>
       </Routes>
     </BrowserRouter>
   );
