@@ -16,7 +16,7 @@ class CategoryRepository {
                 RETURNING category
             `;
 
-            const values = [category.category, category.name, category.image];
+            const values = [category.category, category.category_name, category.category_image];
             const queryResult = await db.query<{ category: string }>(script, values);
 
             const [row] = queryResult.rows;
@@ -36,7 +36,7 @@ class CategoryRepository {
                 WHERE category = $1
             `;
 
-            const values = [category.category, category.name, category.image];
+            const values = [category.category, category.category_name, category.category_image];
             await db.query(script, values);
         } catch (error) {
             throw new DatabaseError({ log: 'Erro ao atualizar categoria', data: error });

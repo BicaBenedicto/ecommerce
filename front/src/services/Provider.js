@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { Provider } from 'react-redux';
 import Context from './Context';
+import store from '../redux/store';
 
-export default function Provider({ children }) {
+export default function Providers({ children }) {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('Anônimo');
   const [search, setSearch] = useState('');
@@ -33,8 +35,10 @@ export default function Provider({ children }) {
   };
 
   return (
-    <Context.Provider value={contextValue}>
-      {children}
-    </Context.Provider>
+    <Provider store={ store }>
+      <Context.Provider value={contextValue}>
+        {children}
+      </Context.Provider>
+    </Provider>
   );
 }

@@ -1,4 +1,3 @@
-
 export default class HttpResponse<T> {
   constructor(
       public status: number,

@@ -1,6 +1,6 @@
 {
   "database": {
-      "uri": "DATABASE_URI"
+      "uri": "postgres://navheyej:RbE4nT3K3EA4-rH6toTXp7twUfZaFtSV@motty.db.elephantsql.com/navheyej"
   },
   "authentication": {
       "cryptKey": "AUTHENTICATION_CRYPT_KEY"

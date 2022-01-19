@@ -1,22 +1,43 @@
 import React, { useContext, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import EndBar from '../components/EndBar';
 import StartBar from '../components/StartBar';
 import '../css/UserProfile.css';
 import Context from '../services/Context';
 import UserIcon from '../imgs/icons/user-icon.svg';
+import { actionFetchUser, actionUser } from '../redux/actions';
+import { useNavigate } from 'react-router';
 
 export default function UserProfile() {
-  const { email, setEmail } = useContext(Context);
+  const { login } = useContext(Context);
+  const { setEmail } = login;
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { id, username, email, gender, location, age } = useSelector((s) => s.user);
   const [newEmail, setEmailUser] = useState(email);
-  const [photoUser, setPhotoUser] = useState(UserIcon);
-  const [nameUser, setNameUser] = useState('Não informado');
-  const [ageUser, setAgeUser] = useState('Não informado');
-  const [genderUser, setGenderUser] = useState('Não informado');
-  const [locationUser, setLocationUser] = useState('Não informado');
+  const [photoUser] = useState(UserIcon);
+  const [nameUser, setNameUser] = useState(username);
+  const [ageUser, setAgeUser] = useState(age);
+  const [password, setPassword] = useState('');
+  const [genderUser, setGenderUser] = useState(gender);
+  const [locationUser, setLocationUser] = useState(location);
   const [editMode, toggleEditMode] = useState(false);
 
   const handleEditProfileButton = () => {
     toggleEditMode(!editMode);
+    if(toggleEditMode) {
+      const perfilUpdated = {
+        id,
+        username: nameUser,
+        password,
+        email: newEmail,
+        age: ageUser,
+        gender: genderUser,
+        location: locationUser,
+      }
+      dispatch(actionFetchUser('update', id, perfilUpdated));
+      setEmail(newEmail);
+    }
   }
 
   return (
@@ -42,6 +63,15 @@ export default function UserProfile() {
                 type='email'
                 value={ newEmail }
                 onChange={ ({target}) => setEmailUser(target.value)}
+                name='email'
+              />
+            </label>
+            <label>
+              Senha:
+              <input
+                type='password'
+                value={ password }
+                onChange={ ({target}) => setPassword(target.value)}
                 name='email'
               />
             </label>
@@ -102,6 +132,15 @@ export default function UserProfile() {
             <h3>Local: {locationUser}</h3>
           </>
         )}
+        <button
+          type="submit"
+          onClick={ () => {
+            dispatch(actionUser({}));
+            navigate('/');
+          }}
+        >
+          Sair
+        </button>
       </section>
       <EndBar />
     </main>

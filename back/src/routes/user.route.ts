@@ -20,6 +20,32 @@ route.get('/:id', async (req: Request<{ id: string }>, res: Response, next: Next
     }
 });
 
+route.get('/:email', async (req: Request<{ email: string }>, res: Response, next: NextFunction) => {
+    try {
+        const email = req.params.email;
+        const user: User | null = await userRepository.findByEmail(email);
+
+        if (!user) {
+            return res.sendStatus(StatusCodes.NO_CONTENT);
+        }
+
+        return res.status(StatusCodes.OK).json('E-mail já utilizado');
+    } catch (error) {
+        return next(error);
+    }
+});
+
+route.get('/:email/:password', async (req: Request<{ email: string, password: string }>, res: Response, next: NextFunction) => {
+    try {
+        const email = req.params.email;
+        const password = req.params.password;
+        const user = await userRepository.findByUsernameAndPassword(email, password);
+        return res.status(StatusCodes.OK).json(user);
+    } catch (error) {
+        return next(error);
+    }
+});
+
 route.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user: User = req.body;

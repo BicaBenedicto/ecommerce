@@ -4,75 +4,89 @@ import { DatabaseError } from './../errors/database.error';
 
 class ProductRepository {
 
-    async create(category: Product): Promise<string> {
+    async create(product: Product): Promise<string> {
         try {
             const script = `
-                INSERT INTO application_categories (
+                INSERT INTO application_products (
+                    id,
+                    price,
+                    item_name,
+                    item_image,
+                    item_likes,
+                    item_unlikes,
                     category,
-                    category_name,
-                    category_image,
                 )
-                VALUES ($1, $2, $3))
-                RETURNING category
+                VALUES ($1, $2, $3, $4, $5, $6, $7)
+                RETURNING id;
             `;
 
-            const values = [category.category, category.name, category.image];
-            const queryResult = await db.query<{ category: string }>(script, values);
+            const values = [product.id, product.price, product.item_name,
+                product.item_image, product.likes, product.unlikes, product.category];
+            const queryResult = await db.query<{ id: string }>(script, values);
 
             const [row] = queryResult.rows;
-            return row.category;
+            return row.id;
         } catch (error) {
-            throw new DatabaseError({ log: 'Erro ao inserir categoria', data: error });
+            throw new DatabaseError({ log: 'Erro ao inserir produto', data: error });
         }
     }
 
-    async update(category: Product): Promise<void> {
+    async update(product: Product): Promise<void> {
         try {
             const script = `
-                UPDATE application_categories
+                UPDATE application_products
                 SET
-                    category_name = $2,
-                    category_image = $3
-                WHERE category = $1
+                    price = $2,
+                    item_name = $3,
+                    item_image = $4,
+                    item_likes = $5,
+                    item_unlikes = $6,
+                    category = $7,
+                WHERE id = $1;
             `;
 
-            const values = [category.category, category.name, category.image];
+            const values = [product.id, product.price, product.item_name,
+                product.item_image, product.likes, product.unlikes, product.category];
             await db.query(script, values);
         } catch (error) {
-            throw new DatabaseError({ log: 'Erro ao atualizar categoria', data: error });
+            throw new DatabaseError({ log: 'Erro ao atualizar produto', data: error });
         }
     }
 
-    async remove(category: string): Promise<void> {
+    async remove(id: string): Promise<void> {
         try {
             const script = `
                 DELETE 
-                FROM application_categories
-                WHERE category = $1
+                FROM application_products
+                WHERE id = $1;
             `;
 
-            const values = [category];
+            const values = [id];
             await db.query(script, values);
         } catch (error) {
-            throw new DatabaseError({ log: 'Erro ao deletar categoria', data: error });
+            throw new DatabaseError({ log: 'Erro ao deletar produto', data: error });
         }
     }
 
     async findById(id: string): Promise<Product | null> {
         try {
             const query = `
-                SELECT 
-                    category, 
-                    category_name,
-                    category_image
-                FROM application_categories
-                WHERE category = $1
+                SELECT
+                    id,
+                    price,
+                    item_name,
+                    item_image,
+                    item_likes,
+                    item_unlikes,
+                    category
+                FROM application_products
+                WHERE id = $1
             `;
             const queryResult = await db.query<Product>(query, [id]);
             const [row] = queryResult.rows;
-            return !row ? null : row;
+            return row;
         } catch (error) {
-            throw new DatabaseError({ log: 'Erro ao buscar categoria', data: error });
+            throw new DatabaseError({ log: 'Erro ao buscar produto', data: error });
         }
     }
 
@@ -80,17 +94,21 @@ class ProductRepository {
         try {
             const query = `
                 SELECT 
-                    category, 
-                    category_name,
-                    category_image
-                FROM application_categories
-                WHERE category_name = $1
+                    id,
+                    price,
+                    item_name,
+                    item_image,
+                    item_likes,
+                    item_unlikes,
+                    category,
+                FROM application_products
+                WHERE item_name = $1;
             `;
             const queryResult = await db.query(query, [name]);
             const [row] = queryResult.rows;
             return !row ? null : row;
         } catch (error) {
-            throw new DatabaseError({ log: 'Erro ao buscar categoria pelo nome', data: error });
+            throw new DatabaseError({ log: 'Erro ao buscar produto pelo nome', data: error });
         }
     }
 

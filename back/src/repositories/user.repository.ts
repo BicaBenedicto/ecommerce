@@ -12,13 +12,17 @@ class UserRepository {
             const script = `
                 INSERT INTO application_user (
                     username, 
-                    password
+                    password,
+                    email,
+                    age,
+                    gender,
+                    location
                 ) 
-                VALUES ($1, crypt($2, '${authenticationCryptKey}')) 
+                VALUES ($1, crypt($2, '${authenticationCryptKey}'), $3, $4, $5, $6) 
                 RETURNING id
             `;
 
-            const values = [user.username, user.password];
+            const values = [user.username, user.password, user.email, user.age, user.gender, user.location];
             const queryResult = await db.query<{ id: string }>(script, values);
 
             const [row] = queryResult.rows;
@@ -34,11 +38,15 @@ class UserRepository {
                 UPDATE application_user
                 SET
                     username = $2,
-                    password = crypt($3, '${authenticationCryptKey}')
+                    password = crypt($3, '${authenticationCryptKey}'),
+                    email = $4,
+                    age = $5,
+                    gender = $6,
+                    location = $7
                 WHERE id = $1            
             `;
 
-            const values = [user.id, user.username, user.password];
+            const values = [user.id, user.username, user.password, user.email, user.age, user.gender, user.location];
             await db.query(script, values);
         } catch (error) {
             throw new DatabaseError({ log: 'Erro ao atualizar usuário', data: error });
@@ -65,7 +73,11 @@ class UserRepository {
             const query = `
                 SELECT 
                     id, 
-                    username
+                    username,
+                    email,
+                    age,
+                    gender,
+                    location
                 FROM application_user
                 WHERE id = $1
             `;
@@ -77,17 +89,21 @@ class UserRepository {
         }
     }
 
-    async findByUsernameAndPassword(username: string, password: string): Promise<User | null> {
+    async findByUsernameAndPassword(email: string, password: string): Promise<User | null> {
         try {
             const query = `
                 SELECT 
                     id, 
-                    username
+                    username,
+                    email,
+                    age,
+                    gender,
+                    location
                 FROM application_user
-                WHERE username = $1
+                WHERE email = $1
                 AND password = crypt($2, '${authenticationCryptKey}')
             `;
-            const queryResult = await db.query(query, [username, password]);
+            const queryResult = await db.query(query, [email, password]);
             const [row] = queryResult.rows;
             return !row ? null : row;
         } catch (error) {
@@ -95,6 +111,21 @@ class UserRepository {
         }
     }
 
+    async findByEmail(email: string): Promise<User | null> {
+        try {
+            const query = `
+                SELECT 
+                    email
+                FROM application_user
+                WHERE email = $1
+            `;
+            const queryResult = await db.query(query, [email]);
+            const [row] = queryResult.rows;
+            return !row ? null : row;
+        } catch (error) {
+            throw new DatabaseError({ log: 'Usúario não encontrado', data: error });
+        }
+    }
 }
 
 export default new UserRepository();
