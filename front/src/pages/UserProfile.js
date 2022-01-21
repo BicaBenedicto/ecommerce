@@ -23,7 +23,8 @@ export default function UserProfile() {
   const [locationUser, setLocationUser] = useState(location);
   const [editMode, toggleEditMode] = useState(false);
 
-  const handleEditProfileButton = () => {
+  const handleEditProfileButton = (e) => {
+    e.preventDefault();
     toggleEditMode(!editMode);
     if(toggleEditMode) {
       const perfilUpdated = {
@@ -45,17 +46,7 @@ export default function UserProfile() {
       <StartBar />
       <section className='user-profile'>
         {editMode ? (
-          <>
-            <div>
-            <button
-              type="button"
-              className='edit-profile'
-              onClick={ handleEditProfileButton }
-            >
-              <h4>Salvar</h4>
-              <i className="bi-pencil-square icone"></i>
-            </button>
-            </div>
+          <form onSubmit={ handleEditProfileButton }>
             <img src={ photoUser } alt={ nameUser} className='user-photo' />
             <label>
               E-mail:
@@ -110,7 +101,13 @@ export default function UserProfile() {
                   name='location'
               />
             </label>
-          </>
+            <button
+              type="submit"
+            >
+              <i className="bi-pencil-square icone"></i>
+              Salvar
+            </button>
+          </form>
         )
         : (
           <>
@@ -124,23 +121,31 @@ export default function UserProfile() {
                 <i className="bi-pencil-square icone"></i>
               </button>
             </div>
+            <button
+                type="button"
+                className='settings-profile'
+                onClick={ () => navigate('/settings') }
+              >
+                <i className="bi-gear-fill icone"></i>
+              </button>
             <img src={ photoUser } alt={ nameUser} className='user-photo' />
-            <h3>E-mail: {email}</h3>
+            <h3>E-mail: {newEmail}</h3>
             <h3>Nome: {nameUser}</h3>
             <h3>Idade: {ageUser}</h3>
             <h3>Gênero: {genderUser}</h3>
             <h3>Local: {locationUser}</h3>
           </>
         )}
-        <button
+        {!editMode && <button
           type="submit"
+          className="login-button"
           onClick={ () => {
             dispatch(actionUser({}));
             navigate('/');
           }}
         >
           Sair
-        </button>
+        </button>}
       </section>
       <EndBar />
     </main>

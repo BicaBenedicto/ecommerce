@@ -1,6 +1,6 @@
 {
   "database": {
-      "uri": "your-postgree"
+      "uri": "your-postgree-uri"
   },
   "authentication": {
       "cryptKey": "=q5q)weDGbQC"

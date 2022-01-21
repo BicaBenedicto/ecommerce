@@ -2,7 +2,9 @@ import { SET_PRODUCTS, SET_PRODUCT, SET_COMMENT } from '../actions';
 
 const INITIAL_STATE = {
   products: [],
-  product: {},
+  product: {
+    comments: [],
+  },
 };
 
 function products(state = INITIAL_STATE, { type, payload }) {
@@ -17,7 +19,7 @@ function products(state = INITIAL_STATE, { type, payload }) {
       ...state,
       product: {
         ...payload,
-        comment: state.product.comment,
+        comments: state.product.comments,
       },
     });
   case SET_COMMENT:
@@ -25,7 +27,7 @@ function products(state = INITIAL_STATE, { type, payload }) {
       ...state,
       product: {
         ...state.product,
-        comment: payload,
+        comments: payload,
       },
     });
   default:

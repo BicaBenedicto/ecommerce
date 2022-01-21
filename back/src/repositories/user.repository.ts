@@ -7,7 +7,7 @@ const authenticationCryptKey = config.get<string>('authentication.cryptKey');
 
 class UserRepository {
 
-    async create(user: User): Promise<string> {
+    async create(user: User): Promise<any> {
         try {
             const script = `
                 INSERT INTO application_user (
@@ -18,21 +18,21 @@ class UserRepository {
                     gender,
                     location
                 ) 
-                VALUES ($1, crypt($2, '${authenticationCryptKey}'), $3, $4, $5, $6) 
-                RETURNING id
+                VALUES ($1, crypt($2, '${authenticationCryptKey}'), $3, $4, $5, $6)
             `;
 
             const values = [user.username, user.password, user.email, user.age, user.gender, user.location];
-            const queryResult = await db.query<{ id: string }>(script, values);
+            
+            await db.query<{ id: string }>(script, values);
 
-            const [row] = queryResult.rows;
-            return row.id;
+            const queryResult = await this.findByUsernameAndPassword(user.email, user.password);
+            return queryResult;
         } catch (error) {
             throw new DatabaseError({ log: 'Erro ao inserir usuário', data: error });
         }
     }
 
-    async update(user: User): Promise<void> {
+    async update(user: User): Promise<any> {
         try {
             const script = `
                 UPDATE application_user
@@ -48,6 +48,8 @@ class UserRepository {
 
             const values = [user.id, user.username, user.password, user.email, user.age, user.gender, user.location];
             await db.query(script, values);
+            const queryResult = await this.findByUsernameAndPassword(user.email, user.password);
+            return queryResult;
         } catch (error) {
             throw new DatabaseError({ log: 'Erro ao atualizar usuário', data: error });
         }

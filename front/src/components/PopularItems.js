@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { ITEMS_DEFAULT } from '../assets/data';
 import likeIcon from '../imgs/icons/like-icon.svg';
@@ -9,6 +9,7 @@ import { actionFetchProducts } from '../redux/actions';
 export default function PopularItems(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const onProductClick = (id) => {
     navigate(`/products/${id}`);
@@ -16,7 +17,7 @@ export default function PopularItems(props) {
 
   useEffect(() => {
     dispatch(actionFetchProducts('getAllProducts'));
-  }, []);
+  }, [pathname]);
   const renderListItems = (listItems = ITEMS_DEFAULT) => {
     const QUANT = (!props.quant ? Object.keys(listItems).length : props.quant);
 
@@ -30,7 +31,7 @@ export default function PopularItems(props) {
       >
         <div style={ { 'backgroundImage': `url(${item_image})` } }></div>
         <h2>{ item_name }</h2>
-        <h3>R$ { price.toFixed(2).toString().replace('.', ',') }</h3>
+        <h3>R$ { price && price.toFixed(2).toString().replace('.', ',') }</h3>
         <span>
           <img src={ likeIcon } alt="like" />
           { item_like }

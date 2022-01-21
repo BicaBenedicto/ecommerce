@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import Home from './pages/Home';
 import Products from './pages/Products';
 import CategoriesPage from './pages/Categories';
@@ -10,8 +11,19 @@ import ProductsByCategory from './pages/ProductsByCategory';
 import Details from './pages/Details';
 import Cart from './pages/Cart';
 import Settings from './pages/Settings';
+import { actionUser } from './redux/actions';
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const userSaved = JSON.parse(localStorage.getItem('user'));
+    console.log('dnv');
+    if (userSaved) {
+      console.log(userSaved);
+      dispatch(actionUser(userSaved));
+    }
+  }, [dispatch]);
   return (
     <BrowserRouter>
       <Routes>

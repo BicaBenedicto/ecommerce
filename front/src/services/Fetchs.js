@@ -257,7 +257,7 @@ export const fetchUser = {
   verifyByEmail: async (email, _empty) => {
     const { user } = URL;
     try {
-      const data = await fetch(`${user}${email}`, METHOD.get());
+      const data = await fetch(`${user}search/${email}`, METHOD.get());
       const results = await data.json();
       return !!results;
     } catch {
@@ -269,7 +269,7 @@ export const fetchUser = {
     try {
       const data = await fetch(user, METHOD.post(updated));
       const results = await data.json();
-      return results;
+      return results.id || results;
     } catch(error) {
       console.error(error);
     }

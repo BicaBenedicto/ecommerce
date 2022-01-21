@@ -13,16 +13,19 @@ export default function Home() {
   return (
     <main>
       <Header />
-      { isCreatingAccount
-      ? <AccountCreate />
-      : <Login />
-      }
-      <button
-        type="button"
-        onClick={ onButtonClick }
-      >
-        { isCreatingAccount ? 'Logar' : 'Cadastrar' }
-      </button>
+      <div className="login-body">
+        { isCreatingAccount
+        ? <AccountCreate />
+        : <Login />
+        }
+        <button
+          type="button"
+          onClick={ onButtonClick }
+          className="login-button"
+        >
+          { isCreatingAccount ? 'Logar' : 'Cadastrar' }
+        </button>
+      </div>
     </main>
   )
 }

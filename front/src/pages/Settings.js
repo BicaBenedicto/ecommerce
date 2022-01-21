@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import EndBar from '../components/EndBar';
-import BackgroundLogo from '../components/BackgroundLogo';
 import StartBar from '../components/StartBar';
 import CategoryForm from '../components/CategoryForm';
 import ProductForm from '../components/ProductForm';
+import '../css/Settings.css';
 
 export default function Settings() {
   const [formType, setFormType] = useState('category');
@@ -21,7 +21,7 @@ export default function Settings() {
         );
       default:
         return (
-          <h2>Escolha o item que deseja adicionar/alterar ou remover</h2>
+          <h2 className="settings-message">Escolha o item que deseja adicionar/alterar ou remover</h2>
         );
     };
   };

@@ -8,6 +8,10 @@
   z-index: 10;
 }
 
+.start-bar .header-logo, .start-bar .menu-desktop {
+  display: none;
+}
+
 .start-bar ul {
   align-items: center;
   color: var(--illustration-stroke1);
@@ -46,4 +50,25 @@
 .start-bar .filter-icon button, .start-bar .cart-icon button {
   border: none;
   background-color: transparent;
+}
+
+@media only screen and (min-width: 1000px) {
+  .start-bar {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .start-bar .header-logo, .start-bar .menu-desktop {
+    display: flex;
+    margin: 10px 0;
+  }
+
+  .search-bar-desktop {
+    margin: 0 20px;
+  }
+
+  .cart-icon .icone {
+    font-size: 25px ! important;
+  }
+
 }

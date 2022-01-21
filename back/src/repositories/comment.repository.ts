@@ -4,24 +4,25 @@ import { DatabaseError } from './../errors/database.error';
 
 class CommentRepository {
 
-    async create(comment: Comment): Promise<string> {
+    async create(comment: Comment): Promise<any> {
         try {
             const script = `
                 INSERT INTO application_comments (
                     comment,
                     username,
                     username_id,
-                    product_id,
+                    product_id
                 )
-                VALUES ($1, $2, $3, $4, $5, $6, $7)
+                VALUES ($1, $2, $3, $4);
             `;
 
             const values = [comment.comment, comment.username, comment.username_id,
                 comment.product_id];
-            const queryResult = await db.query<{ id: string }>(script, values);
+            
+            await db.query<any>(script, values);
+            const queryResult = await this.findByProductId(comment.product_id.toString());
 
-            const [row] = queryResult.rows;
-            return row.id;
+            return queryResult;
         } catch (error) {
             throw new DatabaseError({ log: 'Erro ao inserir comentário', data: error });
         }
@@ -46,20 +47,20 @@ class CommentRepository {
         }
     }
 
-    async findByProductId(id: string): Promise<Comment | null> {
+    async findByProductId(id: string): Promise<any | null> {
         try {
             const query = `
                 SELECT 
                     comment,
                     username,
                     username_id,
-                    product_id,
+                    product_id
                 FROM application_comments
                 WHERE product_id = $1
             `;
-            const queryResult = await db.query<Comment>(query, [id]);
-            const [row] = queryResult.rows;
-            return !row ? null : row;
+            const queryResult = await db.query<any>(query, [id]);
+            const row = queryResult.rows;
+            return row;
         } catch (error) {
             throw new DatabaseError({ log: 'Erro ao buscar comentário', data: error });
         }

@@ -54,5 +54,8 @@ export const actionFetchComment = (type, value) => (dispatch) => (
 
 export const actionFetchUser = (type, value1, value2) => (dispatch) => (
   fetchUser[type](value1, value2)
-    .then((response) => dispatch(actionUser(response)))
+    .then((response) => {
+      localStorage.setItem('user', JSON.stringify(response));
+      return dispatch(actionUser(response));
+    })
 );

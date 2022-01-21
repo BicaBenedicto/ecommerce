@@ -1,0 +1,27 @@
+.settings-message {
+  text-align: center;
+  margin: 50px 0;
+}
+
+.products-changes {
+  width: 100%;
+}
+
+.edit-remove-btn {
+  display: flex;
+  width: 100%;
+}
+
+.edit-remove-btn button {
+  border-radius: 0;
+  flex-grow: 1;
+  width: 0;
+}
+
+.edit-remove-btn button:hover {
+  filter: brightness(1.2);
+}
+
+.add-save-btn {
+  width: 100%;
+}

@@ -20,7 +20,7 @@ route.get('/:id', async (req: Request<{ id: string }>, res: Response, next: Next
     }
 });
 
-route.get('/:email', async (req: Request<{ email: string }>, res: Response, next: NextFunction) => {
+route.get('/search:email', async (req: Request<{ email: string }>, res: Response, next: NextFunction) => {
     try {
         const email = req.params.email;
         const user: User | null = await userRepository.findByEmail(email);

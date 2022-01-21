@@ -1,6 +1,6 @@
 import React from 'react';
-import '../css/EndBar.css';
 import { useNavigate } from 'react-router-dom';
+import '../css/EndBar.css';
 
 export default function EndBar() {
   const navigate = useNavigate();
@@ -8,6 +8,7 @@ export default function EndBar() {
   const handleButton = (name) => {
     navigate(`/${name}`);
   }
+
   return (
     <section className='end-bar'>
       <ul>

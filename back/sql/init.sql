@@ -40,9 +40,8 @@ CREATE TABLE IF NOT EXISTS application_products (
 CREATE TABLE IF NOT EXISTS application_comments (
     comment VARCHAR NOT NULL,
     username VARCHAR NOT NULL,
-    username_id VARCHAR NOT NULL,
+    username_id uuid NOT NULL,
     product_id INT NOT NULL,
     FOREIGN KEY (product_id) REFERENCES application_products(id),
-    FOREIGN KEY (username) REFERENCES application_users(username),
     FOREIGN KEY (username_id) REFERENCES application_user(id)
 );

@@ -7,7 +7,7 @@ import unlikeIcon from '../imgs/icons/unlike-icon.svg';
 import addCartIcon from '../imgs/icons/cart-add-icon.svg';
 import checkCartIcon from '../imgs/icons/cart-check-icon.svg';
 import '../css/ProductDetails.css';
-import { actionFetchProduct } from '../redux/actions';
+import { actionFetchProduct, actionFetchComment } from '../redux/actions';
 
 export default function ProductDetails() {
   const { login, cart } = useContext(Context);
@@ -17,9 +17,11 @@ export default function ProductDetails() {
   const [, productId] = pathname.split('/products/');
   const [productActual, setProductActual] = useState({});
   const product = useSelector((s) => s.products.product);
+  const user = useSelector((s) => s.user);
 
   useEffect(() => {
     dispatch(actionFetchProduct('getById', productId));
+    dispatch(actionFetchComment('getByProduct', productId));
     const saveCartList = JSON.parse(localStorage.getItem('cart'));
     if (saveCartList) {
       cart.addCartList(saveCartList);
@@ -32,6 +34,17 @@ export default function ProductDetails() {
     setProductActual(product);
   }, [product]);
 
+  const onSendCommentButton = (e) => {
+    e.preventDefault();
+    const newCommentary = {
+      comment: commentary,
+      username: user.username,
+      username_id: user.id,
+      product_id: productId,
+    };
+    dispatch(actionFetchComment('create', newCommentary));
+  };
+
   const addOrRemoveItemCart = (productItem) => {
     const haveItem = cart.cartList.some(({id}) => id === productItem.id);
     if(haveItem) {
@@ -41,7 +54,7 @@ export default function ProductDetails() {
     }
     localStorage.setItem('cart', JSON.stringify([...cart.cartList, { ...productItem, quant: 1}]));
     return cart.addCartList([...cart.cartList, { ...productItem, quant: 1}]);
-  }
+  };
 
   const renderListItems = (listItems) => {
       const {id, item_name, item_image, item_like, item_unlike, comments, price} = listItems;
@@ -77,21 +90,25 @@ export default function ProductDetails() {
             </button>
           </div>
           <h2 className='title'>R$ {price.toFixed(2).toString().replace('.', ',')}</h2>
-          <ul>
+          <ul className="comments">
             { comments && comments.map((comment, index) => (
               <li key={ index }>
-                <h4>{comment.name}</h4>
-                <p>{comment.message}</p>
+                <h4>{comment.username}</h4>
+                <p>{comment.comment}</p>
               </li>
             )) }
             <li>
-              <h4>{login.name}</h4>
-              <textarea
-                maxLength='400'
-                value={ commentary }
-                onChange={ (e) => setCommentary(e.target.value)}
-              />
-              <button type='submit'>Comentar</button>
+              <form onSubmit={ onSendCommentButton } className="comment-form">
+                <div>
+                  <h4>{user.username || 'Anônimo'}</h4>
+                  <textarea
+                    maxLength='400'
+                    value={ commentary }
+                    onChange={ (e) => setCommentary(e.target.value)}
+                  />
+                </div>
+                <button type='submit'>Comentar</button>
+              </form>
             </li>
           </ul>
         </div>
@@ -102,5 +119,5 @@ export default function ProductDetails() {
     <section className='product-main'>
         {!productActual.price ? <div>Carregando...</div> : renderListItems(productActual) }
     </section>
-  )
+  );
 }

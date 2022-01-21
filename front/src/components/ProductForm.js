@@ -57,7 +57,7 @@ export default function ProductForm() {
   const onAddCategoryButton = (e) => {
     e.preventDefault();
     const newProduct = {
-      id: priceInput * imageInput.length || nameInput.length,
+      id: Math.round(priceInput * imageInput.length * nameInput.length),
       price: priceInput,
       item_name: nameInput,
       item_image: imageInput,
@@ -76,7 +76,7 @@ export default function ProductForm() {
         onChange={ (e) => selectCategory(e.target.value) }
       >
         {categories.map((category) => (
-          <option value={ category.category }>{ category.category_name }</option>
+          <option key={ category.category } value={ category.category }>{ category.category_name }</option>
         ))}
       </select>
       <label htmlFor="name-input">
@@ -114,7 +114,7 @@ export default function ProductForm() {
       { categories[0]
       ? <>
       { products[0]
-      && <div>
+      && <div className="products-changes">
         <label htmlFor="filter-category">
           Filtrar por categoria: 
           <select
@@ -122,8 +122,8 @@ export default function ProductForm() {
             value={ categoryFilter }
             onChange={ (e) => setCategoryFilter(e.target.value) }
           >
-            {products.concat({ category: 'All', category_name: 'All'}).map((category) => (
-              <option value={ category.category }>{ category.category_name}</option>
+            {categories.concat({ category: 'All', category_name: 'All'}).map((category, i) => (
+              <option key={ i } value={ category.category }>{ category.category_name}</option>
             ))}
           </select>
         </label>
@@ -140,21 +140,12 @@ export default function ProductForm() {
               };
               return category === categoryFilter;
             })).map((product) => (
-              <option value={ product.id }>{ product.item_name}</option>
+              <option key={ product.id } value={ product.id }>{ product.item_name}</option>
             ))}
           </select>
         </label>
-        {isEditing
-        ? <>
-          { inputsRender() }
-          <button
-            type="button"
-            onClick={ () => onEditOrRemoveButton('edit') }
-          >
-            Salvar
-          </button>
-        </>
-        : <>
+        {!isEditing
+        && <div className="edit-remove-btn">
           <button
             type="button"
             onClick={ () => toggleIsEditing(true) }
@@ -167,18 +158,28 @@ export default function ProductForm() {
           >
             Remover
           </button>
-        </>}
+        </div>}
       </div>}
       <div>
         { inputsRender() }
-        <button
+        { isEditing
+        ? <button
+          type="button"
+          onClick={ () => onEditOrRemoveButton('edit') }
+          className="add-save-btn"
+        >
+          Salvar
+        </button>
+        : <button
           type="submit"
+          className="add-save-btn"
         >
           Adicionar
         </button>
+        }
       </div>
       </>
-      : <h2>Adicione uma categoria para conectar os produtos</h2>}
+      : <h2 className="settings-message">Adicione uma categoria para conectar os produtos</h2>}
     </form>
   );
 }

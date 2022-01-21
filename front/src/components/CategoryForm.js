@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { actionFetchCategories, actionCategories, actionFetchCategory,
   actionFetchProducts} from '../redux/actions';
+import '../css/Settings.css';
 
 export default function CategoryForm() {
   const dispatch = useDispatch();
@@ -82,26 +83,17 @@ export default function CategoryForm() {
   return (
     <form onSubmit={ onAddCategoryButton }>
       { categories.length !== 0
-      && <div>
+      && <div className="products-changes">
         <select
           value={ categorySelected }
           onChange={ (e) => selectCategory(e.target.value) }
         >
-          {categories.map((category) => (
-            <option value={ category.category }>{ category.category_name}</option>
+          {categories.map((category, index) => (
+            <option key={ index } value={ category.category }>{ category.category_name}</option>
           ))}
         </select>
-        {isEditing
-        ? <>
-          { inputsRender() }
-          <button
-            type="button"
-            onClick={ () => onEditOrRemoveButton('edit') }
-          >
-            Salvar
-          </button>
-        </>
-        : <>
+        {!isEditing
+        && <div className="edit-remove-btn">
           <button
             type="button"
             onClick={ () => toggleIsEditing(true) }
@@ -114,15 +106,24 @@ export default function CategoryForm() {
           >
             Remover
           </button>
-        </>}
+        </div>}
       </div>}
       <div>
-        { inputsRender() }
-        <button
-          type="submit"
+        {inputsRender()}
+        {isEditing
+        ? <button
+          type="button"
+          onClick={ () => onEditOrRemoveButton('edit') }
+          className="add-save-btn"
         >
-          Adicionar
+          Salvar
         </button>
+        : <button
+            type="submit"
+            className="add-save-btn"
+          >
+            Adicionar
+          </button>}
       </div>
     </form>
   )

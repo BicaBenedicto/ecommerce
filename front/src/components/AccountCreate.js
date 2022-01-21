@@ -16,14 +16,14 @@ export default function AccountCreate() {
   const [gender, setGender] = useState('not-informed');
   const [location, setLocation] = useState('');
   const [hasError, toggleHasError] = useState('');
-  const { email: emailValidation } = useSelector((s) => s.user);
+  const emailValidation = useSelector((s) => s.user.email);
 
-  const errorMessage = (type = email) => {
+  const errorMessage = (type) => {
     const errorTypes = {
-      email: (<h3>E-mail e/ou senha inválido</h3>),
+      email: (<h3>Por favor verifique seu e-mail e/ou senha</h3>),
       emailUsed: (<h3>E-mail já utilizado</h3>),
     }
-    return errorTypes[type];
+    return errorTypes[type] || '';
   }
 
   useEffect(() => {
@@ -45,9 +45,9 @@ export default function AccountCreate() {
     verifyEmailAndPassword();
   }, [email, password]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    await dispatch(actionFetchUser('verifyByEmail', email));
+    dispatch(actionFetchUser('verifyByEmail', email));
     if(!emailValidation) {
       const newUser = {
         email,
@@ -57,7 +57,7 @@ export default function AccountCreate() {
         age,
         location,
       }
-      await dispatch(actionFetchUser('create', newUser));
+      dispatch(actionFetchUser('create', newUser));
       toggleHasError('');
       return navigate('/products');
     }

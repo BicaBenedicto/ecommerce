@@ -7,7 +7,15 @@ main {
   width: 100%;
 }
 
+main .login-body {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 form {
+  align-items: center;
   display: flex;
   flex-direction: column;
   width: 80%;
@@ -16,10 +24,21 @@ form {
 form label {
   align-items: center;
   display: flex;
+  justify-content: center;
   width: 100%;
 }
 
-form input {
+form select, form option {
+  background-color: white;
+  border: none;
+  border-radius: 10px;
+  height: 30px;
+  margin: 10px 0;
+  padding: 5px 30px;
+  width: 90%;
+}
+
+form input{
   border: none;
   border-radius: 10px;
   height: 30px;
@@ -33,6 +52,7 @@ form .icon-inputs {
 }
 
 form button {
+  align-self: stretch;
   background-color: var(--button1);
   border: none;
   border-radius: 10px;
@@ -42,7 +62,26 @@ form button {
   margin: 10px 0;
 }
 
+.login-button {
+  background-color: var(--button1);
+  border: none;
+  border-radius: 10px;
+  color: var(--button-text1);
+  font-weight: 700;
+  margin: 10px 0;
+  padding: 7px 0;
+  width: 80%;
+}
+
 form button:disabled {
   background-color: var(--button-disabled1);
   font-weight: 100;
+}
+
+@media only screen and (min-width: 1000px) {
+  main {
+    margin: 0 auto;
+    margin-top: 30px;
+    width: 20%;
+  }
 }

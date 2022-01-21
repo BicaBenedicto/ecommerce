@@ -1,9 +1,10 @@
 .background-logo {
   align-items: center;
+  bottom: 50%;
   display: flex;
   justify-content: center;
+  opacity: 0.2;
   position: fixed;
-  bottom: 50%;
   width: 100%;
   z-index: 0;
 }

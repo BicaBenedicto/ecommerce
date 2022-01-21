@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Context from '../services/Context';
 import userIcon from '../imgs/icons/user-icon.svg';
 import lockIcon from '../imgs/icons/lock-icon.svg';
@@ -16,12 +16,12 @@ export default function Login() {
   const [hasError, toggleHasError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const errorMessage = (type = email) => {
+  const errorMessage = (type) => {
     const errorTypes = {
       email: (<h3>E-mail e/ou senha inválido</h3>),
       emailNotFound: (<h3>E-mail não encontrado</h3>),
     }
-    return errorTypes[type];
+    return errorTypes[type] || 'Erro desconhecido, por favor tente novamente';
   }
 
   useEffect(() => {
@@ -36,10 +36,9 @@ export default function Login() {
         toggleHasError('');
         return toggleDisabled(false);
       }
-      toggleHasError('email');
+      if (email) toggleHasError('email');  
       return toggleDisabled(true);
     }
-
     verifyEmailAndPassword();
   }, [email, password]);
 
@@ -49,9 +48,11 @@ export default function Login() {
     setIsLoading(true);
     const data = await fetch(`http://localhost:4000/user/${email}/${password}`);
     const results = await data.json();
+    console.log(results);
     if (results) {
       toggleHasError('');
       setIsLoading(false);
+      localStorage.setItem('user', JSON.stringify(results));
       return navigate('/products');
     }
     setIsLoading(false);

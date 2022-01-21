@@ -18,11 +18,11 @@ export default function CartList() {
 
   const renderListItems = () => {
     return cartItems
-        .map(({name, image, id, price, quant}) => (
+        .map(({item_name, item_image, id, price, quant}) => (
           <CartItem
             key={ id }
-            name={ name }
-            image={ image }
+            name={ item_name }
+            image={ item_image }
             id={ id }
             price={ price }
             quant={ quant }

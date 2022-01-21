@@ -6,6 +6,7 @@
 }
 
 .user-profile .user-photo {
+  margin: 0 auto;
   width: 150px;
 }
 
@@ -20,4 +21,21 @@
   border: none;
   background-color: transparent;
   display: flex;
+}
+
+.user-profile label {
+  flex-grow: 1;
+}
+
+.user-profile input {
+  flex-grow: 1;
+  width: 0;
+}
+
+.user-profile .settings-profile {
+  align-self: flex-start;
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  margin: 0 20px;
 }
