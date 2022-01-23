@@ -47,6 +47,20 @@ class CommentRepository {
         }
     }
 
+    async removeById(id: string): Promise<void> {
+        try {
+            const script = `
+                DELETE 
+                FROM application_comments
+                WHERE product_id = $1
+            `;
+
+            await db.query(script, [id]);
+        } catch (error) {
+            throw new DatabaseError({ log: 'Erro ao deletar comentário', data: error });
+        }
+    }
+
     async findByProductId(id: string): Promise<any | null> {
         try {
             const query = `

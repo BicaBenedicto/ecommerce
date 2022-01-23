@@ -1,6 +1,7 @@
 import { Products } from 'models/products.model';
 import db from '../database';
 import { DatabaseError } from './../errors/database.error';
+import commentRepository from './comment.repository';
 
 class ProductsRepository {
     async removeCategoryAllProducts(category: string): Promise<void> {
@@ -12,6 +13,10 @@ class ProductsRepository {
             `;
 
             const values = [category];
+            const products = await this.findByCategory(category);
+            products.forEach(async (product: any) => {
+                await commentRepository.removeById(product.id);
+            })
             await db.query(script, values);
         } catch (error) {
             throw new DatabaseError({ log: 'Erro ao deletar produto', data: error });
@@ -33,8 +38,7 @@ class ProductsRepository {
                 WHERE category = $1;
             `;
 
-            const categor = [category];
-            const queryResult = await db.query<Products>(query, categor);
+            const queryResult = await db.query<Products>(query, [category]);
             return queryResult.rows;
         } catch (error) {
             throw new DatabaseError({ log: 'Erro ao buscar produto', data: error });

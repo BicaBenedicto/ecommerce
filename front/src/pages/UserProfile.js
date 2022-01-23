@@ -142,6 +142,7 @@ export default function UserProfile() {
           onClick={ () => {
             dispatch(actionUser({}));
             navigate('/');
+            localStorage.clear();
           }}
         >
           Sair

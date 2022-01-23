@@ -18,9 +18,7 @@ function App() {
 
   useEffect(() => {
     const userSaved = JSON.parse(localStorage.getItem('user'));
-    console.log('dnv');
     if (userSaved) {
-      console.log(userSaved);
       dispatch(actionUser(userSaved));
     }
   }, [dispatch]);

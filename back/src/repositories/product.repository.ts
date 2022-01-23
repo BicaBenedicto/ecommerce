@@ -1,6 +1,7 @@
 import db from '../database';
 import { Product } from '../models/product.model';
 import { DatabaseError } from './../errors/database.error';
+import commentRepository from './comment.repository';
 
 class ProductRepository {
 
@@ -63,6 +64,7 @@ class ProductRepository {
 
             const values = [id];
             await db.query(script, values);
+            await commentRepository.removeById(id);
         } catch (error) {
             throw new DatabaseError({ log: 'Erro ao deletar produto', data: error });
         }

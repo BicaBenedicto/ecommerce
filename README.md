@@ -43,31 +43,58 @@ Projeto desenvolvido como conclusão do Bootcamp de Front-End Developer do banco
 #### Categorias /category e /categories
 
 - /categories (Aceita método get e delete) | Consulta todos as categorias e excluir todas as categorias
-- /category 
+- /category (Aceita método post) Criação de categoria nova
+- /category/:id (Aceita método get, put e delete) | Consulta, edição e exclusão de categoria
+- /category/search/:name (Aceita método get) Consulta de categoria pelo nome
+
+
+#### Produtos /products e /product
+
+- /products (Aceita método get) Consulta todos os produtos
+- /products/:category (Aceita método get e delete) Consulta e deleta produtos por categoria
+- /product (Aceita método post) Criação de produto novo
+- /product/:id (Aceita método get, put e delete) Consulta, edição e exclusão de produto
+- /product/search/:name (Aceita método get) Consulta de produto pelo nome
+
+#### Comentários /product/comment
+
+- /product/comment (Aceita método post) Criação de comentário novo
+- /product/comment/:id (Aceita método get) Consulta de comentários pelo id do produto
+- /product/comment/:id (Aceita método delete) Exclusão de comentário pelo id do produto e do usúario e mensagem especifica
+
 ## Demonstração
 
-Insira um gif ou um link de alguma demonstração
+![Login](https://i.imgur.com/E4WMM0g.png)
+![Home](https://i.imgur.com/urcz2ZV.png)
+![Perfil](https://i.imgur.com/Y6rvm8j.png)
+![Produto](https://i.imgur.com/lo3wIHj.png)
+![Gerenciamento](https://i.imgur.com/6yjSioD.png)
+
 
 
 ## Aprendizados
 
-O que você aprendeu construindo esse projeto? Quais desafios você enfrentou e como você superou-os?
-
+Criar rotas e gerenciar foi meu maior desafio e o que mais aprendi por ser a primeira vez criando o back-end de uma aplicação
 
 ## Stack utilizada
 
-**Front-end:** React, Redux, TailwindCSS
+**Front-end:** React, React Router, Redux, Css
 
-**Back-end:** Node, Express
+**Back-end:** Node, Typscript, Express
 
 
 ## Instalação
 
-Instale my-project com npm
+Por possuir Front-End e Back-End, a instalação é feita individualmente em suas respectivas pastas
 
+
+Acessar a pasta de front e usar o comando abaixo e após, acessar a de back e usar o mesmo comando.
 ```bash
-  npm install my-project
-  cd my-project
+  cd front
+  npm install
+  cd ../back
+  npm install
+  cd ..
 ```
     
 ## Rodando localmente
@@ -75,49 +102,83 @@ Instale my-project com npm
 Clone o projeto
 
 ```bash
-  git clone https://link-para-o-projeto
+  git clone https://github.com/BicaBenedicto/ecommerce.git
 ```
 
 Entre no diretório do projeto
 
 ```bash
-  cd my-project
+  cd ecommerce
 ```
 
-Instale as dependências
+**Instale as dependências conforme informado acima**
+
+**Configurando servidor:**
+
+Alguns arquivos necessitam configurações no back-end e front-end.
+
+Back-end
+
+Ao entrar na pasta de 'config', temos 2 arquivos, 'default.json' e 'production.json', ambos precisam da chave postgree do banco de dados que irá utilizar para a aplicação funcionar.
 
 ```bash
-  npm install
+  cd back/config
 ```
 
-Inicie o servidor
+A pasta 'sql' possui o 'init.sql' que é para criação dos bancos de dados necessários para a aplicação funcionar.
 
 ```bash
+  cd back/sql
+```
+
+A posta padrão do servidor está configurada para 4000, podendo ser alterado no arquivo 'index.ts' na pasta de 'src'.
+
+```bash
+  cd back/src
+```
+
+Front-end
+
+Por ser feito requisições via API, é necessário trocar o ip que será utilizado para fazer a requisição, está como padrão 'http://localhost:3000/'
+E pode ser alterado no arquivo 'Fetchs.js' na pasta 'services' dentro de 'src'
+
+```bash
+  cd front/src/services
+```
+
+
+**Inicie o servidor**
+
+Para inicializar o front-end
+
+```bash
+  cd front
   npm run start
 ```
 
-
-## Deploy
-
-Para fazer o deploy desse projeto rode
+Para inicialziar o back-end
 
 ```bash
-  npm run deploy
+  cd back
+  npm run dev
 ```
-
 
 ## FAQ
 
-#### Questão 1
+#### O projeto está finalizado?
 
-Resposta 1
+Não, o projeto está em andamento, ele foi iniciado ao fazer o Bootcamp de Inter Front-End Developer pela DIO, gostei do potencial do projeto e decide aprimorar e criar um sistema automatizado completo
 
-#### Questão 2
+#### Posso ajudar a aprimorar o projeto?
 
-Resposta 2
+Sim, toda ajuda para um sistema automatico e seguro é bem-vinda.
 
 
-## Melhorias
+## Funcionalidades pendentes
 
-Que melhorias você fez no seu código? Ex: refatorações, melhorias de performance, acessibilidade, etc
-
+- Alteração do back-end/banco de dados para utilizar o e-mail para chave única.
+- Adição de sistema de verificação de e-mail existente ao cadastrar.
+- Adição da funcionalidade de likes/deslikes em produtos
+- Filtros em barra de Pesquisa
+- Página de finalizar compra
+- Implementação de API dos correios para calculo de valor do frete dos produtos

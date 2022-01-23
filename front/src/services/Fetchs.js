@@ -1,6 +1,6 @@
-const URL_FIX = 'http://localhost:4000';
+export const URL_FIX = 'http://localhost:4000';
 
-const URL  = {
+export const URL  = {
   categories: `${URL_FIX}/categories`,
   category: {
     root: `${URL_FIX}/category/`,

@@ -5,6 +5,7 @@ import Context from '../services/Context';
 import userIcon from '../imgs/icons/user-icon.svg';
 import lockIcon from '../imgs/icons/lock-icon.svg';
 import { actionFetchUser } from '../redux/actions';
+import { URL } from '../services/Fetchs';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -46,9 +47,8 @@ export default function Login() {
     e.preventDefault();
     dispatch(actionFetchUser('login', { email, password }));
     setIsLoading(true);
-    const data = await fetch(`http://localhost:4000/user/${email}/${password}`);
+    const data = await fetch(`${URL.user}${email}/${password}`);
     const results = await data.json();
-    console.log(results);
     if (results) {
       toggleHasError('');
       setIsLoading(false);
